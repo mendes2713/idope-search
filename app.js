@@ -1,5 +1,5 @@
 /**
- * Criado por Adriel Mendes 27/10/2017
+ * Criado por Adriel Mendes 28/10/2017
  */
 
 const thenfunc = require('q');
