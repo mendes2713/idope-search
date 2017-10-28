@@ -1,5 +1,5 @@
 # idope-search
- A simple way to search for torrents in idope.se
+ A simple and faster way to search for torrents in idope.se
 
 ## Description
 Html scraper of [iDope](https://idope.se/). Lets find a list of magnets links by query string. Return ArrayJson as result.
