@@ -1,0 +1,36 @@
+{
+  "name": "idope-search",
+  "version": "1.0.0",
+  "description": "A simple and faster way to search for torrents in idope.se",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mendes2713/idope-search.git"
+  },
+  "keywords": [
+    "idope.se",
+    "idope",
+    "bittorrent",
+    "api",
+    "idope-api",
+    "idope-search"
+  ],
+  "author": "mendes2713",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "q": "^1.4.1",
+    "request": "^2.81.0"
+  },
+  "bugs": {
+    "url": "https://github.com/mendes2713/idope-search/issues"
+  },
+  "homepage": "https://github.com/mendes2713/idope-search#readme",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "license": "ISC"
+}
