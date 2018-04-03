@@ -1,0 +1,1096 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title></title>
+	<script>
+		var lite = {};
+		lite.timingStart = (window.performance && window.performance.timing) ? window.performance.timing.navigationStart :
+			new Date().getTime();
+	</script>
+	<style>
+		body,
+		html {
+			background: #fff;
+			min-height: 100%;
+			font-family: sans-serif-light, sans-serif;
+			font-size: 14px;
+			text-rendering: optimizeLegibility;
+			overflow-x: hidden;
+			margin: 0;
+			padding: 0;
+			-webkit-overflow-scrolling: touch
+		}
+
+		blockquote,
+		body,
+		caption,
+		dd,
+		dl,
+		fieldset,
+		figure,
+		form,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		hr,
+		legend,
+		ol,
+		p,
+		pre,
+		ul,
+		table,
+		td,
+		th {
+			margin-left: 0;
+			margin-right: 0;
+			padding-left: 0;
+			padding-right: 0;
+			word-wrap: break-word
+		}
+
+		table {
+			width: 100%
+		}
+
+		.table-scroll-x {
+			display: block;
+			overflow-x: auto
+		}
+
+		blockquote {
+			padding-left: 1em
+		}
+
+		hr {
+			height: 1px;
+			width: 75%
+		}
+
+		embed,
+		img,
+		object,
+		video {
+			max-width: 100%
+		}
+
+		ol,
+		ul {
+			list-style: none
+		}
+
+		code {
+			padding-left: 0;
+			padding-right: 0
+		}
+
+		pre {
+			overflow-x: scroll;
+			padding-left: .5em;
+			padding-right: 0.5em
+		}
+
+		.lite-clear {
+			clear: both
+		}
+
+		#lite-content,
+		#lite-spinner-space {
+			min-height: 320px
+		}
+
+		#lite-content,
+		#lite-spinner-space,
+		#lite-ad-bottom {
+			background: #fff;
+			padding: 16px 5px;
+			position: relative;
+			font-size: 16px
+		}
+
+		.lite-ad {
+			text-align: center
+		}
+
+		#lite-toggle-menu,
+		#lite-info,
+		#lite-message-close {
+			height: 24px;
+			width: 24px;
+			position: absolute;
+			margin: 10px 0 10px 15px
+		}
+
+		#lite-toggle-menu {
+			opacity: 0.3;
+			background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQffAhIVNxA4MRnlAAAAJ0lEQVQ4y2NgGKmglJF4VVClpf8Ja+hmZGBgYGCiuZNGPT3q6WEMAFh0C5LxyOOYAAAAAElFTkSuQmCC)
+		}
+
+		#lite-overlay {
+			opacity: 0.5;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			visibility: hidden;
+			z-index: 5;
+			background: #000
+		}
+
+		#lite-page {
+			height: 100%;
+			width: 100%
+		}
+
+		#lite-orig-html-tag,
+		#lite-orig-body-tag {
+			padding: 0;
+			margin: 0
+		}
+
+		#lite-error-message-banner {
+			padding: 10px 16px;
+			position: relative;
+			background: #f4c7c3;
+			font-size: 16px
+		}
+
+		#lite-error-message {
+			margin: 4px 0 0
+		}
+
+		#lite-header {
+			width: 100%;
+			background: #fafafa;
+			border-bottom: 1px solid rgba(0, 0, 0, .16)
+		}
+
+		#lite-domain-info-new #lite-domain {
+			font: 22px roboto, sans-serif
+		}
+
+		#lite-domain {
+			font: 24px roboto, sans-serif;
+			text-align: left;
+			color: rgba(0, 0, 0, .87);
+			line-height: 1;
+			overflow-x: auto;
+			overflow-y: hidden
+		}
+
+		#lite-domain-info {
+			padding: 10px 0 4px;
+			margin: 0 56px 12px 24%;
+			white-space: nowrap
+		}
+
+		#lite-domain-info.lite-blue-link {
+			padding: 10px 0 4px;
+			white-space: nowrap;
+			margin-bottom: 15px
+		}
+
+		#lite-domain-info-new {
+			padding: 10px 0 4px;
+			margin: 0 56px 3px 24%;
+			white-space: nowrap
+		}
+
+		@media (min-width:300px) {
+			#lite-domain-info,
+			#lite-domain-info-new {
+				margin-left: 50px
+			}
+		}
+
+		.lite-image-text-block img {
+			margin: 0 0.6rem 0 0
+		}
+
+		#lite-atf-content:last-child:after {
+			content: '';
+			clear: both;
+			display: block
+		}
+
+		#lite-info {
+			top: 0;
+			right: 0;
+			opacity: 0.3
+		}
+
+		#lite-spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			z-index: 1;
+			margin: -40px 0 0 -20px;
+			width: 30px;
+			height: 30px;
+			-webkit-border-radius: 40px;
+			border-radius: 50%;
+			border-top: 5px solid rgba(255, 255, 255, 0.2);
+			border-right: 5px solid #2196F3;
+			border-bottom: 5px solid #2196F3;
+			border-left: 5px solid #2196F3;
+			-webkit-animation-name: load;
+			-webkit-animation-duration: 1s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+			-webkit-animation-fill-mode: both;
+			animation: load 1s linear infinite both
+		}
+
+		@-webkit-keyframes load {
+			0% {
+				-webkit-transform: rotate(0deg)
+			}
+			100% {
+				-webkit-transform: rotate(360deg)
+			}
+		}
+
+		@keyframes load {
+			to {
+				transform: rotate(360deg)
+			}
+		}
+
+		#lite-header .arrow,
+		.slideshow-box .left-arrow,
+		.slideshow-box .right-arrow {
+			background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAADYSURBVDjL7ZKrykJBEIC/OQfE5Fv4FKsvIIiYDDaLItZ9BC94ikEUgyBo9hI1CD8/bBHBqE9gsNllLcfbOQpaTE7anflmvmFZ+MVHoaPvVJxrUpjqxlO8yVjL5eZeDqpFnoTam3UAL1EjTszMAwb+sEBPVx/wOl3A8h8ymK06kEJI3iy6SAOwVLxhqAHMSm3IIaRVxCxB1308641ulAQ2LtNGgAJC35/euSck9CYZJggnwMWS9WaPdTfYYHbqQAoHB0vlfpkXhquF8PSnBt9yZOENfr//a3EGJXw9kC5sVUIAAAAASUVORK5CYII=)
+		}
+
+		#lite-header .arrow {
+			transform: scale(.75);
+			-webkit-transform: scale(.75)
+		}
+	</style>
+</head>
+
+<body>
+	<div id="lite-page">
+		<div id="lite-header">
+			<a id="lite-toggle-menu">&nbsp;</a>
+			<div id="lite-domain-info-new">
+				<div id="lite-domain">idope.se</div>
+			</div>
+		</div>
+		<div id="lite-overlay"></div>
+		<div id="lite-spinner"></div>
+		<div id="lite-spinner-space"></div>
+		<script>
+			(function () {
+				var rq = '0LXDWrbHGszS-AHEt5WQAg';
+				var wh = '';
+				(function () {
+					var a = rq,
+						b = wh,
+						c = !1;
+
+					function d() {
+						c || (c = !0, (new Image).src = (b ? "//" + b : "") + "/csi?s=instant_proxy&v=2&action=lite-scroll&timing=" + (
+								window.performance && window.performance.timing ? 1 : 0) + "&ttfs=" + (Date.now() - lite.timingStart) +
+							"&id=" + a, window.removeEventListener("scroll", d))
+					}
+					window.addEventListener("scroll", d);
+				}).call(this);
+			})();
+		</script>
+		<script>
+			lite.clickedOnMenu = false;
+			var toggleMenu = document.getElementById('lite-toggle-menu');
+			toggleMenu.onclick = function () {
+				lite.clickedOnMenu = true;
+			};
+		</script>
+		<script>
+			lite.contentRecd = 0;
+			lite.atfEndTime = 0;
+			lite.btfAdStore = {};
+			lite.firstPaint = -1;
+		</script>
+		<div id="lite-content">
+			<style>
+				.lite-search-form {
+					margin: 5px 0
+				}
+
+				.lite-search-form-input,
+				.lite-search-form-input[type] {
+					background: transparent;
+					height: 34px;
+					padding: 0 16px;
+					font: 400 16px Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+					border: 1px solid rgba(0, 0, 0, 0.2);
+					-webkit-box-sizing: border-box;
+					box-sizing: border-box;
+					background: #fff;
+					border-radius: 0;
+					vertical-align: top;
+					color: rgba(0, 0, 0, 0.87)
+				}
+
+				.lite-search-form-input[type=submit] {
+					background: #ccc;
+					border: none
+				}
+
+				.lite-search-form-input[type=image] {
+					border: none;
+					padding: 0
+				}
+			</style>
+			<style>
+				#lite-atf-content .resultdivbottonfiles {
+					color: #a3a3a3;
+					font-size: 12px;
+					margin: 0 0 0 5px;
+					border: 0 none #a3a3a3
+				}
+
+				#lite-atf-content .resultdivbottonlength {
+					color: #a3a3a3;
+					font-size: 12px;
+					margin: 0 0 0 5px;
+					border: 0 none #a3a3a3
+				}
+
+				#lite-atf-content .resultdivbottontime {
+					color: #a3a3a3;
+					font-size: 12px;
+					margin: 0 0 0 5px;
+					border: 0 none #a3a3a3
+				}
+
+				#lite-atf-content .resultdivbottonseed {
+					color: #a3a3a3;
+					font-size: 12px;
+					margin: 0 0 0 5px;
+					border: 0 none #a3a3a3
+				}
+
+				#lite-atf-content .resultdivtopname {
+					text-align: left;
+					color: #38352d;
+					padding: 0 0 6.9px 20px;
+					margin: 0 20px 0 0;
+					border: 0 none #38352d;
+					font-size: 15px
+				}
+
+				#lite-atf-content a {
+					color: #007aff;
+					border: 0 none #007aff;
+					text-decoration: none
+				}
+
+				#lite-atf-content .resultdivtop {
+					border-top-right-radius: 3px;
+					border-top-left-radius: 3px;
+					border: 0 none #007aff;
+					background-color: #fff;
+					margin: 0 9.6px 0 9.6px;
+					padding: 11.1px 0 0 0
+				}
+
+				#lite-atf-content .resultdiv {
+					margin: 6px 0 0 0;
+					border: 0 none #007aff
+				}
+
+				#lite-atf-content .resultseed {
+					border: 0 none #007aff;
+					display: inline-block;
+					padding-right: 2px;
+					max-width: 100%;
+					margin: 0 0 0 10.9px
+				}
+
+				#lite-atf-content .resultlength {
+					border: 0 none #007aff;
+					display: inline-block;
+					padding-right: 2px;
+					max-width: 100%
+				}
+
+				#lite-atf-content .resulttime {
+					border: 0 none #007aff;
+					display: inline-block;
+					padding-right: 2px;
+					max-width: 100%
+				}
+
+				#lite-atf-content .resultfile {
+					border: 0 none #007aff;
+					display: inline-block;
+					padding-right: 2px;
+					max-width: 100%
+				}
+
+				#lite-atf-content div {
+					text-decoration: none
+				}
+
+				#lite-atf-content .resultdivbotton {
+					border-bottom-left-radius: 3px;
+					margin: 0 9.6px 0 9.6px;
+					border: 1px solid #f6f8fa;
+					border-bottom-right-radius: 3px;
+					background-color: #f8fafc;
+					line-height: 35px
+				}
+			</style>
+			<script>
+				document.getElementById('lite-spinner').style.display = 'none';
+				document.getElementById('lite-spinner-space').style.display = 'none';
+			</script>
+			<script>
+				lite.contentRecd = new Date().getTime();
+				if (typeof requestAnimationFrame != 'undefined') {
+					window.requestAnimationFrame(function (ts) {
+						if (lite.firstPaint == -1) {
+							lite.firstPaint = Math.round(ts);
+						}
+					});
+				}
+			</script>
+			<div id="lite-atf-content">
+				<div class=lac id="lite-orig-html-tag" style="padding:0;margin:0;font-family:sans-serif,sans-serif-light,sans-serif">
+					<div id="lite-orig-body-tag" style="text-align:center;line-height:21px;font-size:17px;margin:0;font-family:&#39;Helvetica Neue&#39;,Helvetica,sans-serif,sans-serif-light,sans-serif;padding:0;background-color:#f0f2f4">
+						<form action="javascript:void(0)" class="lite-search-form" onsubmit="showInvalidFormWarning();" search-form style="margin-top:0;padding-top:0">
+							<input class="lite-search-form-input" name style="margin-top:0;padding-top:0" type=search value=Ubuntu>
+						</form>
+						<div id="a-div2" style="margin:9.6px 0 0 0">
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/40448d478d9203a3919b0900e7fbb9e8748dcdf9/&amp;ts=1522775504&amp;sig=APs-2GxT_XW6bf2Fa6lSUBLNtlZ4Cx3uLw">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-17.10-desktop-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.4&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>5 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/f07e0b0584745b7bcb35e98097488d34e68623d0/&amp;ts=1522775504&amp;sig=APs-2GzC3_LBJJCJYBCnljrdxL0_xtgDSg">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-17.10.1-desktop-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.4&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>2 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/34930674ef3bb9317fb5f263cca830f52685235b/&amp;ts=1522775504&amp;sig=APs-2GzFMvrd3QZnuYi_0e9bVgAjZ7E3pQ">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-14.04.5-desktop-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.0&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>1 years</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/a1577b67f5fcbdb3063ea12ca72e761eeb96cd20/&amp;ts=1522775504&amp;sig=APs-2GwbHakyy8cbVlJWynnTOMFys1ODxA">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-16.04.3-desktop-i386.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.5&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>8 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/59066769b9ad42da2e508611c33d7c4480b3857b/&amp;ts=1522775504&amp;sig=APs-2Gw1RFcdY-SIxAl-NEGccrfmv038wQ">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-17.04-desktop-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.5&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>11 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/5ee7e1dc3e01f362b0e53bfee9e4d6dcdedad61b/&amp;ts=1522775504&amp;sig=APs-2GziwsPrhHurG5S4MSYFjPh1eGmxcg">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-14.04.5-desktop-i386.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.0&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>1 years</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/145b85116626651912298f9400805254fb1192ae/&amp;ts=1522775504&amp;sig=APs-2GyLA-rUfssl5wtzMq-5CEszhEYbuQ">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-16.04.3-server-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>825.0&nbsp;MB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>7 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/057107eba2fc03df1f231de039c501e6585546ad/&amp;ts=1522775504&amp;sig=APs-2GymKGnaSlaryFjXazjHBkzu3eJZtQ">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-17.10.1-server-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>754.0&nbsp;MB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>2 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/a49cd0d5abc633e1ee2ad1fee8ced66614415ceb/&amp;ts=1522775504&amp;sig=APs-2GxlNjzZD4IVTSuHFQeJrPXVuj33Jw">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-16.04.4-server-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>848.0&nbsp;MB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>4 weeks</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							<a href="/?lite_url=https://idope.se/torrent/Ubuntu/1488d454915d860529903b61adb537012a0fe7c8/&amp;ts=1522775504&amp;sig=APs-2Gxe6-JH4bry73i_4Rxu519mjreJRw">
+								<div class=resultdiv>
+									<div class=resultdivtop>
+										<div class=resultdivtopname>ubuntu-16.04.3-desktop-amd64.iso</div>
+									</div>
+									<div class=resultdivbotton>
+										<div class=resultseed>
+											<div class=resultdivbottonseed>0</div>
+										</div>
+										<div class=resultlength>
+											<div class=resultdivbottonlength>1.5&nbsp;GB</div>
+										</div>
+										<div class=resulttime>
+											<div class=resultdivbottontime>7 months</div>
+										</div>
+										<div class=resultfile>
+											<div class=resultdivbottonfiles>1</div>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div data-xp=0 id="a-div3" style="margin:10.4px 9.6px 0 9.6px;line-height:40px;border-radius:3px;background-color:#fff">
+							<div id="a-page" style="font-size:15px;color:#555;border:0 none #555">1</div>
+						</div>
+						<div id="a-div4" style="margin:16.9px 20px 0 20px">
+							<a href="/?lite_url=https://idope.se/i_feedback%3Fini%3D1&amp;ts=1522775504&amp;sig=APs-2GzN6HfIQldSbY9XaT14vG7Fephn2w">
+								<div id="a-div4feedback" style="border:0 none #007aff">
+									<div id="a-feedbacktext" style="padding:3px 10px 0 3px;font-size:12px;color:#8b8b8d;border:0 none #8b8b8d">Feedback</div>
+								</div>
+							</a>
+							<hr id="a-div4hr" style="text-decoration:none;margin:8.5px 0 8.5px 0;background-color:#8b8b8d">
+							<a href="/?lite_url=https://idope.se/apk/down.html%3Fs%3D0&amp;ts=1522775504&amp;sig=APs-2GzSoNYEGuCTqDhJXFy1p_M4cK2iVw">
+								<div id="a-div4loadapp" style="border:0 none #007aff">
+									<div id="a-downloadapptext" style="padding:3px 0 0 10px;font-size:12px;color:#8b8b8d;border:0 none #8b8b8d">iDope APP</div>
+								</div>
+							</a>
+						</div>
+						<a href="/?lite_url=https://idope.se/&amp;ts=1522775504&amp;sig=APs-2GxoaS1uNMEsIXiC-r006X5ykW3Rig" style="padding-bottom:0;margin-bottom:0">
+							<div id="a-div5" style="padding-bottom:0;margin-bottom:0;border:0 none #007aff">
+								<img alt="idope - torrent" id=a-bottonlogoimg src=data:image/gif;base64,R0lGODlhKAAOAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==s
+								    tyle="text-decoration:none;padding:0;min-width:34px;margin:10px 0 0;border:0 none #007aff">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<script>
+				lite.atfEndTime = new Date().getTime();
+			</script>
+		</div>
+	</div>
+	<style>
+		#lite-menu {
+			width: 80%;
+			max-width: 320px;
+			margin: 0 0 0 -25em;
+			min-height: 100%;
+			position: absolute;
+			top: 0;
+			color: rgba(0, 0, 0, .54);
+			line-height: 2em;
+			font-size: 16px
+		}
+
+		#menu-links {
+			margin: 1em 0 5em
+		}
+
+		#lite-menu ul {
+			padding: 0;
+			margin: 0;
+			list-style: none
+		}
+
+		#lite-menu a {
+			text-decoration: none;
+			display: block;
+			padding: 0 20px;
+			color: rgba(0, 0, 0, .54)
+		}
+
+		.menu-shown #lite-menu {
+			margin-left: 0
+		}
+
+		.menu-shown #lite-overlay {
+			visibility: visible
+		}
+
+		.menu-shown #lite-page {
+			margin-left: 320px
+		}
+
+		@media (max-width:25em) {
+			#lite-menu {
+				margin-left: -80%
+			}
+			.menu-shown #lite-page {
+				margin-left: 80%
+			}
+		}
+
+		#lite-page,
+		#lite-menu,
+		#lite-message {
+			perspective: 1000;
+			-webkit-perspective: 1000;
+			transition: all 250ms ease-in
+		}
+
+		#lite-message a,
+		.lite-message-new a {
+			text-decoration: none;
+			white-space: nowrap
+		}
+
+		#lite-report-link {
+			margin-right: 1.5em
+		}
+
+		#lite-report-link::before {
+			content: '';
+			display: block
+		}
+
+		#lite-domain-info #lite-view-original {
+			font-size: 12px;
+			color: rgba(0, 0, 0, .54);
+			text-decoration: none;
+			overflow: hidden;
+			display: block;
+			line-height: 1.25em;
+			margin-top: -2px;
+			float: left
+		}
+
+		#lite-refresh {
+			font: 13px roboto, sans-serif;
+			color: rgba(0, 0, 0, .54);
+			text-decoration: none;
+			overflow: hidden;
+			display: block;
+			line-height: 1.25em;
+			margin-top: -2px
+		}
+
+		.lite-message-new #lite-refresh-link {
+			margin-left: 16px
+		}
+
+		#lite-message {
+			font-size: 14px;
+			line-height: 20px;
+			padding: 0;
+			max-height: 0;
+			width: 100%;
+			color: rgba(0, 0, 0, .87);
+			background: #f5f5f5;
+			overflow: hidden
+		}
+
+		.lite-message-new {
+			margin: 0 0 -5px;
+			padding: 6px 16px;
+			font-size: 13px;
+			line-height: 20px;
+			color: rgba(0, 0, 0, .87);
+			background: #f5f5f5;
+			overflow: hidden
+		}
+
+		#lite-message-close {
+			max-height: 0;
+			margin: 8px 16px;
+			right: 0;
+			background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQffAxIVIi7zhcvqAAAAvUlEQVQ4y92SMRKCMBBFX5yRM4AV0Dg0XoIz7SlyJS+BDUOh0nEICm0QstnMOFqyZfLf7ub/wK5KHIg9XW4+5QL5iSsXZq/lGR0tk39FAEjPmYlyQwQyRnIG39gJcGSk2JBVrpo4NT5ASMoVoJAKUvIICJAnUFm5AZbNe2rgThPL4fBrWi7RfyTnAdRfV1JGok0maWtgJCYXG1zkuySR9dEeOu27h5mSiYKbty6Jo2XQ4z3MVAy04v7+3nuoN/yfWDOoafD8AAAAAElFTkSuQmCC)
+		}
+
+		#lite-info-icon {
+			right: 0;
+			margin: 10px 16px;
+			background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAABF0lEQVR4Ab3SQWrCUBCH8RcXyUkUPUSRXqGgKIqbLiLq9rtHC0LvoOhRSugBlKC9Qq1u/g2zeSE830ZovlVgfmEI4/77IWPGnpJbVcmOKRmunqPeiG/U6MwwDFp8IMQnOW3Sqg5zCoRY06IJbPyHV1w9EnIuRhpgZONPuEB9I4M6yGz3+teF8G9zxInUg5nt7u6ChAIx8WCPyHGRFoitByWiHQVdxNGDGyINrOTLENcHQInoREEPcfBgh5hHwQqx8WCKKEgiv/ULMfYg44zI74IloiT1wDFEXOjjAj3zi3hpHt/aSE7SOL6ljb8HztuIKFjQJavqsbLdxVvgvK0BJ9SoxJYJACtlwpYj16oDG8akuBCI9CD4A/Aebrc1/6RhAAAAAElFTkSuQmCC);
+			position: absolute;
+			height: 24px;
+			width: 24px
+		}
+
+		#lite-domain-info.lite-blue-link #lite-view-original {
+			font-size: 14px;
+			line-height: 20px
+		}
+
+		#lite-page.show-message #lite-info {
+			transform: rotate(180deg) scale(.75);
+			-webkit-transform: rotate(180deg) scale(.75)
+		}
+
+		#lite-page.show-message #lite-message,
+		#lite-page.show-message #lite-promo {
+			max-height: 100em
+		}
+
+		#lite-message p {
+			margin: 0 52px 0 0;
+			padding: 10px 16px
+		}
+
+		#lite-promo {
+			max-height: 0;
+			margin: 0 0 -7px
+		}
+	</style>
+	<div id="view-original" style="visibility:hidden">
+		<p class="lite-message-new" id="lite-promo" style="display:none">Google detected you're on a slow connection and optimized this page to use 80% less data.</p>
+		<div class="lite-message-new">
+			<span id="lite-refresh">Optimized 24 minutes ago</span>
+			<span id="lite-header-links">
+				<a href="/?lite_url=https://idope.se/torrent-list/Ubuntu/&amp;lite_escape=" id="lite-view-original">View original</a>
+				<script>
+					(function () {
+						var rh =
+							'//googleweblight.com/?lite_url\x3dhttps://idope.se/torrent-list/Ubuntu/\x26re\x3d1\x26ts\x3d1509214421\x26sig\x3dANTY_L2omWptMnPz5MB3heFNsHbrgDf5Gw\x26lite_refresh\x3d1522775504447';
+						(function () {
+							var a = rh;
+							window.performance && window.performance.navigation && 1 == window.performance.navigation.type && (window.location
+								.href = a);
+						}).call(this);
+					})();
+				</script>
+				<a href="//googleweblight.com/?lite_url=https://idope.se/torrent-list/Ubuntu/&amp;re=1&amp;ts=1509214421&amp;sig=ANTY_L2omWptMnPz5MB3heFNsHbrgDf5Gw&amp;lite_refresh=1522775504447"
+				    id="lite-refresh-link">Refresh</a>
+			</span>
+		</div>
+	</div>
+	<a href="//support.google.com/webmasters/answer/6211428?hl=" id="lite-info-icon"></a>
+	<script>
+		(function () {
+			var id = ['a-bottonlogoimg'];
+			var sc = [
+				'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXwBFRcXHhoeOyEhO3xTRlN8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fP/AABEIAA4AKAMBIgACEQEDEQH/xAAYAAACAwAAAAAAAAAAAAAAAAABAwIEBv/EACIQAAMAAgEEAgMAAAAAAAAAAAECAwQRAAUSITEyUSJBYf/EABcBAQADAAAAAAAAAAAAAAAAAAMBAgT/xAAcEQACAgIDAAAAAAAAAAAAAAABAgARErEDITH/2gAMAwEAAhEDEQA/ANAuXa08WcqAUsWJoy+gD9cPdeOZ2u4o7KFVta9n645unSMJyDOpkSUcHyN8mmEiowdmdm9ux88DnRnY4RkZQgBisjJth/NhUMD2+NaPF3vlYKpa1FsjHTIFA0f4eSzcYLjUdnZ30ACx9eeMTp0xRWpSlQnwVzsDkIHyo7gPZ8lOWVnFkqSDM6ZgyhUAPrTfvh5ZXpclcbpRpKe5ZFvxB4ObLWu5RQwn/9k\x3d'
+			];
+			for (var i = 0; i < id.length && i < sc.length; i++) {
+				document.getElementById(id[i]).src = sc[i];
+			}
+		})();
+	</script>
+	<div id="lite-menu">
+		<div id="menu-links">
+			<ul>
+				<li>
+					<a href="/?lite_url=https://idope.se/favorite/login.html&amp;mlid=0_0&amp;id=0LXDWrbHGszS-AHEt5WQAg&amp;ts=1522775504&amp;sig=APs-2GzS4pjrSKVzMtLGJ0jPRLwxfwdF0g">Login</a>
+				</li>
+				<li>
+					<a href="/?lite_url=https://idope.se/favorite&amp;mlid=0_1&amp;id=0LXDWrbHGszS-AHEt5WQAg&amp;ts=1522775504&amp;sig=APs-2GwaQ7DPsfci69edV6055zYolz4NYA">MyDope</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		(function () {
+			var pt = 'Ubuntu - idope torrent search';
+			document.title = pt;
+		})();
+	</script>
+	<script>
+		(function () {
+			var e = this,
+				f = function (a, c) {
+					a = a.split(".");
+					var b = e;
+					a[0] in b || "undefined" == typeof b.execScript || b.execScript("var " + a[0]);
+					for (var d; a.length && (d = a.shift());) a.length || void 0 === c ? b[d] && b[d] !== Object.prototype[d] ? b = b[
+						d] : b = b[d] = {} : b[d] = c
+				};
+			f("togglePromotion", function () {
+				var a = document.getElementById("lite-page"),
+					c = document.getElementById("lite-message-close");
+				a.className ? (a.className = "", c.style.maxHeight = "0") : (a.className = "show-message", c.style.maxHeight =
+					"100em")
+			});
+			var g = function (a) {
+					return a ? document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + a + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") ||
+						null : null
+				},
+				h = function (a, c, b) {
+					document.cookie = a + "=" + c + "; " + (b ? (Infinity == b ? "max-age=63113904" : "max-age=" + b) + ";" : "")
+				};
+			f("initializePromotionMessage", function () {
+				var a = parseInt(g("PROMOTION_SHOWN_COUNT"), 10) || 0;
+				"true" !== g("PROMOTION_SHOWN") && (3 > a ? (h("PROMOTION_SHOWN_COUNT", a + 1, Infinity), h("PROMOTION_SHOWN", !
+						0, 86400)) : h("PROMOTION_SHOWN", !0, 2592E3), document.getElementById("lite-page").className =
+					"show-message", document.getElementById("lite-promo").style.display = "block")
+			});
+		}).call(this);
+	</script>
+	<script>
+		(function () {
+			var wh = '';
+			var ec = 'lsrt.36,rtt.26,dc.dy,lp.0';
+			var rq = '0LXDWrbHGszS-AHEt5WQAg';
+			(function () {
+				var d = ec,
+					h = wh,
+					k = rq;
+				window.addEventListener("load", function () {
+					var e = "",
+						a = "",
+						f = "-1",
+						g = window.performance && window.performance.timing,
+						c = window.performance && window.performance.navigation && null != window.performance.navigation.type;
+					if (g) {
+						a = window.performance.timing;
+						var b = a.domainLookupEnd - a.domainLookupStart,
+							l = a.connectEnd - a.connectStart,
+							m = a.requestStart - lite.timingStart;
+						e = a.responseStart - a.requestStart;
+						a = ",ol." + (a.loadEventStart - lite.timingStart) + ",con." + m + ",dcl." + (a.domContentLoadedEventEnd -
+								lite.timingStart) + ",dns." + b + ",connection." +
+							l + ",dwld." + (a.responseEnd - a.responseStart) + ",cr." + (lite.contentRecd - a.responseStart) + ",ar." +
+							(lite.atfEndTime - a.responseStart)
+					}
+					c && (f = window.performance.navigation.type); - 1 != lite.firstPaint && (a += ",fp." + lite.firstPaint);
+					a += ",em." + (lite.mainEndTime - lite.timingStart);
+					a += ",bh." + document.body.offsetHeight + ",dw." + window.screen.width + "," + d;
+					c = "";
+					(b = window.location.search.match("&geid=\\w+")) && (c = b[0]);
+					b = (h ? "//" + h : "") + "/csi?s=instant_proxy&v=2&action=lite";
+					(new Image).src = b + "&timing=" + (g ? 1 : 0) + "&srt=" + e + "&rt=" +
+						a + c + "&id=" + k + "&nt=" + f
+				}, !1);
+			}).call(this);
+		})();
+	</script>
+	<script>
+		(function () {
+			var ou = 'https://idope.se/torrent-list/Ubuntu/';
+			var wh = '';
+			var eh = '/?lite_url\x3dhttps://idope.se/torrent-list/Ubuntu/\x26lite_escape\x3d';
+			var ifwm = 'Sorry. This form has a problem. You will be redirected to original page. Please fill the form again.';
+			var rq = '0LXDWrbHGszS-AHEt5WQAg';
+			(function () {
+				var e = this,
+					f = function (a, d) {
+						a = a.split(".");
+						var b = e;
+						a[0] in b || "undefined" == typeof b.execScript || b.execScript("var " + a[0]);
+						for (var c; a.length && (c = a.shift());) a.length || void 0 === d ? b[c] && b[c] !== Object.prototype[c] ? b =
+							b[c] : b = b[c] = {} : b[c] = d
+					};
+				var g = ou,
+					h = wh,
+					k = eh,
+					l = ifwm,
+					m = rq,
+					n = -1;
+
+				function p() {
+					"undefined" != typeof window.pageYOffset && (n = Math.max(window.pageYOffset, n))
+				}
+				window.addEventListener("scroll", p, !1);
+				p();
+				var q = document.getElementById("lite-view-original");
+				q && q.addEventListener("click", function () {
+					var a = q.href + "&res=0";
+					a += "&met=" + (lite.mainEndTime - lite.timingStart);
+					a += "&ecl=" + ((new Date).getTime() - lite.mainEndTime);
+					a += "&id=" + m;
+					a += "&msp=" + n;
+					a += "&spl=" + (document.getElementById("lite-resume") ? 1 : 0);
+					q.href = a
+				}, !1);
+
+				function r(a) {
+					var d = document.createElement("a");
+					d.href = "javascript:void(0)";
+					d.ping = (h ? "//" + h : "") + k + "&lite_post=" + (a || "");
+					d.click()
+				}
+				f("sendFormSubmitBeacon", r);
+				f("showInvalidFormWarning", function () {
+					l && alert(l);
+					r("&lite_form_inv=");
+					g && window.location.replace(g)
+				});
+			}).call(this);
+		})();
+	</script>
+	<script>
+		(function () {
+			var rq = '0LXDWrbHGszS-AHEt5WQAg';
+			(function () {
+				var a = rq,
+					b = document.getElementById("lite-toggle-menu"),
+					c = !1,
+					d = function () {
+						c || lite.clickedOnMenu || ((new Image).src = "/csi?s=instant_proxy&v=2&action=menuafterload&id=" + a, c = !0);
+						setTimeout(function () {
+							document.body.className = "menu-shown" === document.body.className ? "" : "menu-shown"
+						}, 0)
+					};
+				document.getElementById("lite-page").onclick = function () {
+					"menu-shown" === document.body.className && d()
+				};
+				var e = function () {
+						lite.clickedOnMenu && ((new Image).src = "/csi?s=instant_proxy&v=2&action=menubeforeload&id=" + a);
+						0 < document.getElementById("lite-menu").getElementsByTagName("ul").length && (b.onclick = d, b.style.opacity =
+							"1")
+					},
+					f = ["initializeMenu"],
+					g = this;
+				f[0] in g || "undefined" == typeof g.execScript || g.execScript("var " + f[0]);
+				for (var h; f.length && (h = f.shift());) f.length || void 0 === e ? g[h] && g[h] !== Object.prototype[h] ? g = g[
+					h] : g = g[h] = {} : g[h] = e;
+			}).call(this);
+		})();
+	</script>
+	<script>
+		lite.mainEndTime = new Date().getTime();
+
+		function moveElem(id, afId) {
+			var e = document.getElementById(id);
+			var af = document.getElementById(afId);
+			af.parentNode.insertBefore(e, af.nextSibling);
+			e.style.visibility = "visible";
+		}
+		initializeMenu();
+	</script>
+	<script>
+		moveElem("view-original", "lite-header");
+		moveElem("lite-info-icon", "lite-toggle-menu");
+		initializePromotionMessage();
+	</script>
+</body>
+
+</html>
