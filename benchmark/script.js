@@ -5,9 +5,6 @@ var idopeOld = require('./app.old');
 
 const html = require('fs').readFileSync('./test/resources/raw.html');
 
-console.log('old', idopeOld.parseHtml(html).length);
-console.log('new', idope.parseHtml(html).length);
-
 suite
   .add('old', function() {
     idopeOld.parseHtml(html);

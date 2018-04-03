@@ -4,7 +4,8 @@
   "description": "A simple and faster way to search for torrents in idope.se",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive ./test"
+    "test": "NODE_ENV=test mocha --recursive ./test",
+    "benchmark": "node benchmark/script.js"
   },
   "repository": {
     "type": "git",
